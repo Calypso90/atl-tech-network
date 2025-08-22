@@ -85,7 +85,7 @@ export function SubmitResourceSection() {
     try {
       // In a real app, this would send an email to the site administrators
       const emailData = {
-        to: "admin@atlantatechresources.com", // This would be the actual admin email
+        to: "75devs@gmail.com", // This would be the actual admin email
         subject: isNewResource ? "New Resource Suggestion" : "Resource Update Suggestion",
         submissionType: formData.submissionType,
         submitterName: formData.submitterName,
