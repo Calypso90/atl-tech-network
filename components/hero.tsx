@@ -9,7 +9,7 @@ export function Hero() {
 
       <div className="container mx-auto max-w-4xl relative z-10">
         <h1 className="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 bg-clip-text text-transparent leading-tight graffiti-heading animate-fade-in-up">
-          Atlanta Tech Community
+          Atlanta Tech Network
         </h1>
         <p
           className="text-xl md:text-2xl text-slate-300 mb-8 max-w-2xl mx-auto leading-relaxed animate-fade-in-up"
