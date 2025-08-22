@@ -108,7 +108,9 @@ export default function AboutPage() {
               <div className="bg-slate-800/50 rounded-xl p-6 border border-slate-700/50">
                 <h2 className="text-2xl font-bold mb-4 text-cyan-400">My Background</h2>
                 <p className="text-slate-300 leading-relaxed mb-4">
-                  I began my career in technical theater, where I specialized in lighting, sound programming, and automation bringing complex productions to life behind the scenes. In recent years, I’ve transitioned into the tech space, carrying over the same problem-solving mindset and creativity that fueled my work in theater.
+                  I'm a passionate software developer and tech community advocate based in Atlanta. With years of
+                  experience in full-stack development, I've worked with various technologies including React, Node.js,
+                  Python, and cloud platforms.
                 </p>
                 <p className="text-slate-300 leading-relaxed">
                   My journey in tech has been shaped by the incredible communities and resources I've encountered along
