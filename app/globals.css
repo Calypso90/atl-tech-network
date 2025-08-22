@@ -1,0 +1,255 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+:root {
+  /* Updated to dark urban tech color scheme */
+  --background: oklch(0.08 0.02 240);
+  --foreground: oklch(0.95 0.01 240);
+  --card: oklch(0.12 0.02 240);
+  --card-foreground: oklch(0.95 0.01 240);
+  --popover: oklch(0.12 0.02 240);
+  --popover-foreground: oklch(0.95 0.01 240);
+  --primary: oklch(0.7 0.15 200);
+  --primary-foreground: oklch(0.95 0.01 240);
+  --secondary: oklch(0.15 0.02 240);
+  --secondary-foreground: oklch(0.8 0.05 240);
+  --muted: oklch(0.15 0.02 240);
+  --muted-foreground: oklch(0.6 0.05 240);
+  --accent: oklch(0.18 0.03 240);
+  --accent-foreground: oklch(0.9 0.05 180);
+  --destructive: oklch(0.6 0.2 15);
+  --destructive-foreground: oklch(0.95 0.01 240);
+  --border: oklch(0.2 0.03 240);
+  --input: oklch(0.15 0.02 240);
+  --ring: oklch(0.7 0.15 200);
+  --chart-1: oklch(0.7 0.15 200);
+  --chart-2: oklch(0.65 0.18 280);
+  --chart-3: oklch(0.6 0.2 320);
+  --chart-4: oklch(0.75 0.12 160);
+  --chart-5: oklch(0.8 0.1 60);
+  --radius: 0.625rem;
+  --sidebar: oklch(0.1 0.02 240);
+  --sidebar-foreground: oklch(0.9 0.05 240);
+  --sidebar-primary: oklch(0.7 0.15 200);
+  --sidebar-primary-foreground: oklch(0.95 0.01 240);
+  --sidebar-accent: oklch(0.15 0.02 240);
+  --sidebar-accent-foreground: oklch(0.8 0.05 240);
+  --sidebar-border: oklch(0.2 0.03 240);
+  --sidebar-ring: oklch(0.7 0.15 200);
+  --font-rubik: "Rubik", sans-serif;
+  /* Updated urban tech color variables */
+  --urban-cyan: oklch(0.7 0.15 200);
+  --urban-blue: oklch(0.65 0.18 240);
+  --urban-purple: oklch(0.6 0.2 280);
+  --urban-green: oklch(0.75 0.12 160);
+  --neon-glow: 0 0 20px rgba(34, 211, 238, 0.3);
+}
+
+.dark {
+  /* Enhanced dark mode with urban tech colors */
+  --background: oklch(0.06 0.02 240);
+  --foreground: oklch(0.98 0.01 240);
+  --card: oklch(0.1 0.02 240);
+  --card-foreground: oklch(0.95 0.01 240);
+  --popover: oklch(0.1 0.02 240);
+  --popover-foreground: oklch(0.95 0.01 240);
+  --primary: oklch(0.75 0.15 200);
+  --primary-foreground: oklch(0.06 0.02 240);
+  --secondary: oklch(0.12 0.02 240);
+  --secondary-foreground: oklch(0.85 0.05 240);
+  --muted: oklch(0.12 0.02 240);
+  --muted-foreground: oklch(0.65 0.05 240);
+  --accent: oklch(0.15 0.03 240);
+  --accent-foreground: oklch(0.9 0.05 180);
+  --destructive: oklch(0.65 0.2 15);
+  --destructive-foreground: oklch(0.95 0.01 240);
+  --border: oklch(0.18 0.03 240);
+  --input: oklch(0.12 0.02 240);
+  --ring: oklch(0.75 0.15 200);
+  --chart-1: oklch(0.75 0.15 200);
+  --chart-2: oklch(0.7 0.18 280);
+  --chart-3: oklch(0.65 0.2 320);
+  --chart-4: oklch(0.8 0.12 160);
+  --chart-5: oklch(0.85 0.1 60);
+  --sidebar: oklch(0.08 0.02 240);
+  --sidebar-foreground: oklch(0.9 0.05 240);
+  --sidebar-primary: oklch(0.75 0.15 200);
+  --sidebar-primary-foreground: oklch(0.06 0.02 240);
+  --sidebar-accent: oklch(0.12 0.02 240);
+  --sidebar-accent-foreground: oklch(0.85 0.05 240);
+  --sidebar-border: oklch(0.18 0.03 240);
+  --sidebar-ring: oklch(0.75 0.15 200);
+  /* Enhanced neon colors for dark mode */
+  --urban-cyan: oklch(0.8 0.15 200);
+  --urban-blue: oklch(0.75 0.18 240);
+  --urban-purple: oklch(0.7 0.2 280);
+  --urban-green: oklch(0.85 0.12 160);
+  --neon-glow: 0 0 30px rgba(34, 211, 238, 0.5);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --font-rubik: var(--font-rubik);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+    /* Updated to dark tech grid pattern */
+    background-image: radial-gradient(circle at 1px 1px, rgba(34, 211, 238, 0.1) 1px, transparent 0),
+      linear-gradient(rgba(15, 23, 42, 0.8), rgba(15, 23, 42, 0.9));
+    background-size: 30px 30px, 100% 100%;
+  }
+
+  /* Enhanced graffiti-style heading for tech theme */
+  .graffiti-heading {
+    font-family: var(--font-rubik);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    text-shadow: 0 0 10px rgba(34, 211, 238, 0.3);
+    position: relative;
+  }
+
+  /* Updated urban glow effects for tech theme */
+  .urban-glow {
+    box-shadow: var(--neon-glow);
+    transition: box-shadow 0.3s ease;
+  }
+
+  .urban-glow:hover {
+    box-shadow: 0 0 40px rgba(34, 211, 238, 0.6);
+  }
+
+  .tech-border {
+    border: 2px solid transparent;
+    background: linear-gradient(var(--background), var(--background)) padding-box,
+      linear-gradient(45deg, var(--urban-cyan), var(--urban-blue)) border-box;
+  }
+
+  /* Responsive typography improvements */
+  @media (max-width: 640px) {
+    .graffiti-heading {
+      font-size: clamp(1.5rem, 4vw, 2.5rem);
+      line-height: 1.2;
+    }
+  }
+
+  /* Enhanced focus states for tech theme */
+  .focus-urban:focus {
+    outline: 2px solid var(--urban-cyan);
+    outline-offset: 2px;
+    box-shadow: 0 0 10px rgba(34, 211, 238, 0.5);
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* Updated scrollbar styling for tech theme */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: var(--muted);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: linear-gradient(var(--urban-cyan), var(--urban-blue));
+    border-radius: 4px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(var(--urban-blue), var(--urban-purple));
+  }
+}
+
+/* Updated utility classes for tech theme */
+@layer utilities {
+  .text-tech-gradient {
+    background: linear-gradient(135deg, var(--urban-cyan), var(--urban-blue));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .bg-tech-gradient {
+    background: linear-gradient(135deg, var(--urban-cyan), var(--urban-blue));
+  }
+
+  .border-tech-gradient {
+    border-image: linear-gradient(135deg, var(--urban-cyan), var(--urban-blue)) 1;
+  }
+
+  .shadow-neon {
+    box-shadow: var(--neon-glow);
+  }
+
+  .animate-fade-in-up {
+    animation: fadeInUp 0.6s ease-out forwards;
+  }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-neon-pulse {
+    animation: neonPulse 2s ease-in-out infinite alternate;
+  }
+
+  @keyframes neonPulse {
+    from {
+      box-shadow: 0 0 5px rgba(34, 211, 238, 0.5);
+    }
+    to {
+      box-shadow: 0 0 20px rgba(34, 211, 238, 0.8), 0 0 30px rgba(147, 51, 234, 0.4);
+    }
+  }
+}
