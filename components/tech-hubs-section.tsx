@@ -1,14 +1,20 @@
+'use client'
+
 import Link from "next/link"
 import { ResourceCard } from "./resource-card"
-import { sampleTechHubs } from "@/lib/sample-data"
+import { useResources } from "@/hooks/use-resources"
+import { useMemo } from "react"
+import { Loader2 } from "lucide-react"
 
 export function TechHubsSection() {
-  const getRandomTechHubs = () => {
-    const shuffled = [...sampleTechHubs].sort(() => 0.5 - Math.random())
-    return shuffled.slice(0, 3)
-  }
+  const { resources: techHubs, loading } = useResources({ type: 'tech-hub' })
 
-  const displayHubs = getRandomTechHubs()
+  // Get 3 random tech hubs
+  const displayHubs = useMemo(() => {
+    if (techHubs.length === 0) return []
+    const shuffled = [...techHubs].sort(() => 0.5 - Math.random())
+    return shuffled.slice(0, 3)
+  }, [techHubs])
 
   return (
     <section id="tech-hubs" className="py-16">
@@ -22,11 +28,17 @@ export function TechHubsSection() {
         </p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
-        {displayHubs.map((hub, index) => (
-          <ResourceCard key={index} resource={hub} />
-        ))}
-      </div>
+      {loading ? (
+        <div className="flex items-center justify-center py-12">
+          <Loader2 className="w-8 h-8 text-cyan-400 animate-spin" />
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+          {displayHubs.map((hub) => (
+            <ResourceCard key={hub.id} resource={hub} />
+          ))}
+        </div>
+      )}
 
       <div className="text-center">
         <Link

@@ -2,27 +2,28 @@
 
 import { Navigation } from "@/components/navigation"
 import { ResourceCard } from "@/components/resource-card"
-import { sampleOnlineResources } from "@/lib/sample-data"
-import { ArrowLeft, BookOpen, Code, Zap, Filter, X } from "lucide-react"
+import { useResources } from "@/hooks/use-resources"
+import { ArrowLeft, BookOpen, Code, Zap, Filter, X, Loader2 } from "lucide-react"
 import Link from "next/link"
 import { useState, useMemo } from "react"
 
 export default function OnlineResourcesPage() {
+  const { resources: onlineResources, loading, error, total } = useResources({ type: 'online' })
   const [selectedTags, setSelectedTags] = useState<string[]>([])
   const [isFilterOpen, setIsFilterOpen] = useState(false)
 
   const allTags = useMemo(() => {
     const tags = new Set<string>()
-    sampleOnlineResources.forEach((resource) => {
+    onlineResources.forEach((resource) => {
       resource.tags.forEach((tag) => tags.add(tag))
     })
     return Array.from(tags).sort()
-  }, [])
+  }, [onlineResources])
 
   const filteredResources = useMemo(() => {
-    if (selectedTags.length === 0) return sampleOnlineResources
-    return sampleOnlineResources.filter((resource) => selectedTags.some((tag) => resource.tags.includes(tag)))
-  }, [selectedTags])
+    if (selectedTags.length === 0) return onlineResources
+    return onlineResources.filter((resource) => selectedTags.some((tag) => resource.tags.includes(tag)))
+  }, [onlineResources, selectedTags])
 
   const toggleTag = (tag: string) => {
     setSelectedTags((prev) => (prev.includes(tag) ? prev.filter((t) => t !== tag) : [...prev, tag]))
@@ -57,77 +58,79 @@ export default function OnlineResourcesPage() {
             </p>
           </div>
 
-          <div className="mb-8">
-            <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
-              <div className="relative">
-                <button
-                  onClick={() => setIsFilterOpen(!isFilterOpen)}
-                  className="flex items-center gap-2 bg-slate-800 hover:bg-slate-700 border border-slate-600 rounded-lg px-4 py-2 text-white transition-colors"
-                >
-                  <Filter className="w-4 h-4" />
-                  Filter by Technology
-                  <span className="text-xs bg-cyan-500 text-slate-900 px-2 py-1 rounded-full ml-2">
-                    {allTags.length}
-                  </span>
-                </button>
+          {!loading && (
+            <div className="mb-8">
+              <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
+                <div className="relative">
+                  <button
+                    onClick={() => setIsFilterOpen(!isFilterOpen)}
+                    className="flex items-center gap-2 bg-slate-800 hover:bg-slate-700 border border-slate-600 rounded-lg px-4 py-2 text-white transition-colors"
+                  >
+                    <Filter className="w-4 h-4" />
+                    Filter by Technology
+                    <span className="text-xs bg-cyan-500 text-slate-900 px-2 py-1 rounded-full ml-2">
+                      {allTags.length}
+                    </span>
+                  </button>
 
-                {isFilterOpen && (
-                  <div className="absolute top-full left-0 mt-2 w-80 bg-slate-800 border border-slate-600 rounded-lg shadow-xl z-10 max-h-96 overflow-y-auto">
-                    <div className="p-4">
-                      <div className="flex items-center justify-between mb-3">
-                        <h3 className="text-sm font-semibold text-white">Select Technologies</h3>
-                        <button onClick={() => setIsFilterOpen(false)} className="text-slate-400 hover:text-white">
-                          <X className="w-4 h-4" />
-                        </button>
-                      </div>
-                      <div className="grid grid-cols-2 gap-2">
-                        {allTags.map((tag) => (
-                          <button
-                            key={tag}
-                            onClick={() => toggleTag(tag)}
-                            className={`text-left px-3 py-2 rounded-md text-sm transition-colors ${
-                              selectedTags.includes(tag)
-                                ? "bg-cyan-500 text-slate-900 font-medium"
-                                : "bg-slate-700 text-slate-300 hover:bg-slate-600"
-                            }`}
-                          >
-                            {tag}
+                  {isFilterOpen && (
+                    <div className="absolute top-full left-0 mt-2 w-80 bg-slate-800 border border-slate-600 rounded-lg shadow-xl z-10 max-h-96 overflow-y-auto">
+                      <div className="p-4">
+                        <div className="flex items-center justify-between mb-3">
+                          <h3 className="text-sm font-semibold text-white">Select Technologies</h3>
+                          <button onClick={() => setIsFilterOpen(false)} className="text-slate-400 hover:text-white">
+                            <X className="w-4 h-4" />
                           </button>
-                        ))}
+                        </div>
+                        <div className="grid grid-cols-2 gap-2">
+                          {allTags.map((tag) => (
+                            <button
+                              key={tag}
+                              onClick={() => toggleTag(tag)}
+                              className={`text-left px-3 py-2 rounded-md text-sm transition-colors ${
+                                selectedTags.includes(tag)
+                                  ? "bg-cyan-500 text-slate-900 font-medium"
+                                  : "bg-slate-700 text-slate-300 hover:bg-slate-600"
+                              }`}
+                            >
+                              {tag}
+                            </button>
+                          ))}
+                        </div>
                       </div>
                     </div>
-                  </div>
-                )}
-              </div>
+                  )}
+                </div>
 
-              <div className="flex items-center gap-4">
-                {selectedTags.length > 0 && (
-                  <button onClick={clearFilters} className="text-sm text-slate-400 hover:text-white transition-colors">
-                    Clear filters
-                  </button>
-                )}
-                <span className="text-sm text-slate-400">
-                  Showing {filteredResources.length} of {sampleOnlineResources.length} resources
-                </span>
-              </div>
-            </div>
-
-            {selectedTags.length > 0 && (
-              <div className="flex flex-wrap gap-2 mt-4">
-                {selectedTags.map((tag) => (
-                  <span
-                    key={tag}
-                    className="inline-flex items-center gap-1 bg-cyan-500 text-slate-900 px-3 py-1 rounded-full text-sm font-medium"
-                  >
-                    {tag}
-                    <button onClick={() => toggleTag(tag)} className="hover:bg-cyan-600 rounded-full p-0.5">
-                      <X className="w-3 h-3" />
+                <div className="flex items-center gap-4">
+                  {selectedTags.length > 0 && (
+                    <button onClick={clearFilters} className="text-sm text-slate-400 hover:text-white transition-colors">
+                      Clear filters
                     </button>
+                  )}
+                  <span className="text-sm text-slate-400">
+                    Showing {filteredResources.length} of {total} resources
                   </span>
-                ))}
+                </div>
               </div>
-            )}
-          </div>
+
+              {selectedTags.length > 0 && (
+                <div className="flex flex-wrap gap-2 mt-4">
+                  {selectedTags.map((tag) => (
+                    <span
+                      key={tag}
+                      className="inline-flex items-center gap-1 bg-cyan-500 text-slate-900 px-3 py-1 rounded-full text-sm font-medium"
+                    >
+                      {tag}
+                      <button onClick={() => toggleTag(tag)} className="hover:bg-cyan-600 rounded-full p-0.5">
+                        <X className="w-3 h-3" />
+                      </button>
+                    </span>
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
 
           <div className="grid md:grid-cols-3 gap-6 mb-16">
             <div className="bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-xl p-6 text-center">
@@ -153,13 +156,29 @@ export default function OnlineResourcesPage() {
 
       <section className="pb-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {filteredResources.map((resource) => (
-              <ResourceCard key={resource.id} resource={resource} />
-            ))}
-          </div>
+          {loading && (
+            <div className="flex items-center justify-center py-16">
+              <Loader2 className="w-8 h-8 text-cyan-400 animate-spin" />
+              <span className="ml-3 text-slate-400">Loading resources...</span>
+            </div>
+          )}
 
-          {filteredResources.length === 0 && (
+          {error && (
+            <div className="text-center py-16">
+              <p className="text-red-400 text-lg mb-4">Failed to load resources.</p>
+              <p className="text-slate-500 text-sm">Please try again later.</p>
+            </div>
+          )}
+
+          {!loading && !error && (
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {filteredResources.map((resource) => (
+                <ResourceCard key={resource.id} resource={resource} />
+              ))}
+            </div>
+          )}
+
+          {!loading && !error && filteredResources.length === 0 && (
             <div className="text-center py-16">
               <p className="text-slate-400 text-lg mb-4">No resources found for the selected technologies.</p>
               <button onClick={clearFilters} className="text-cyan-400 hover:text-cyan-300 transition-colors">

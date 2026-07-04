@@ -1,0 +1,25 @@
+# Cloudflare Workers / Pages configuration
+# https://developers.cloudflare.com/workers/wrangler/configuration/
+
+name = "atl-tech-network"
+compatibility_date = "2024-12-01"
+compatibility_flags = ["nodejs_compat"]
+
+# For Next.js on Cloudflare Pages, most config is handled by @cloudflare/next-on-pages
+# This file primarily configures D1 bindings
+
+# D1 Database binding
+# After creating database, update database_id:
+#   wrangler d1 create atl-tech-network-db
+#   Copy the database_id from output
+[[d1_databases]]
+binding = "DB"
+database_name = "atl-tech-network-db"
+database_id = "d3d7267e-36c5-4468-9330-2631713d2fb6"
+
+# Environment variables (set in Cloudflare Dashboard or wrangler secret)
+# ADMIN_PASSWORD - @tlant@T3ch!
+# ADMIN_EMAIL - optional, for notification recipient
+
+[vars]
+ENVIRONMENT = "production"

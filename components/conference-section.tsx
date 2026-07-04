@@ -1,22 +1,34 @@
-import { ResourceCard } from "./resource-card"
-import { sampleConferences } from "@/lib/sample-data"
+'use client'
+
+import { ResourceCard, type Conference } from "./resource-card"
+import { useResources } from "@/hooks/use-resources"
 import Link from "next/link"
+import { useMemo } from "react"
+import { Loader2 } from "lucide-react"
 
 export function ConferenceSection() {
-  const getUpcomingConferences = () => {
+  const { resources: conferences, loading } = useResources({ type: 'conference' })
+
+  const displayConferences = useMemo(() => {
+    if (conferences.length === 0) return []
+
     const today = new Date()
 
     // Parse conference dates and sort chronologically
-    const conferencesWithDates = sampleConferences.map((conference) => {
+    const conferencesWithDates = conferences.map((conference) => {
       let conferenceDate = new Date()
+      const conf = conference as Conference
 
-      if (conference.conferenceDate) {
+      if (conf.conferenceDate) {
         // Parse dates like "April 15-17, 2025" or "October 8-10, 2025"
-        const dateMatch = conference.conferenceDate.match(/(\w+)\s+(\d+)(?:-\d+)?,\s+(\d{4})/)
+        const dateMatch = conf.conferenceDate.match(/(\w+)\s+(\d+)(?:-\d+)?,\s+(\d{4})/)
         if (dateMatch) {
           const [, month, day, year] = dateMatch
           const monthIndex = new Date(`${month} 1, 2000`).getMonth()
           conferenceDate = new Date(Number.parseInt(year), monthIndex, Number.parseInt(day))
+        } else {
+          // Try ISO date format
+          conferenceDate = new Date(conf.conferenceDate)
         }
       }
 
@@ -41,9 +53,7 @@ export function ConferenceSection() {
     }
 
     return upcomingConferences.slice(0, 3)
-  }
-
-  const displayConferences = getUpcomingConferences()
+  }, [conferences])
 
   return (
     <section id="conferences" className="scroll-mt-20">
@@ -57,11 +67,17 @@ export function ConferenceSection() {
         </p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
-        {displayConferences.map((conference) => (
-          <ResourceCard key={conference.id} resource={conference} />
-        ))}
-      </div>
+      {loading ? (
+        <div className="flex items-center justify-center py-12">
+          <Loader2 className="w-8 h-8 text-cyan-400 animate-spin" />
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+          {displayConferences.map((conference) => (
+            <ResourceCard key={conference.id} resource={conference} />
+          ))}
+        </div>
+      )}
 
       <div className="text-center">
         <Link

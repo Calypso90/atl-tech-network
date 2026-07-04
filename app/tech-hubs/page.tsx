@@ -1,10 +1,14 @@
+"use client"
+
 import { Navigation } from "@/components/navigation"
 import { ResourceCard } from "@/components/resource-card"
-import { sampleTechHubs } from "@/lib/sample-data"
-import { ArrowLeft, MapPin, Users, Wifi } from "lucide-react"
+import { useResources } from "@/hooks/use-resources"
+import { ArrowLeft, MapPin, Users, Wifi, Loader2 } from "lucide-react"
 import Link from "next/link"
 
 export default function TechHubsPage() {
+  const { resources: techHubs, loading, error } = useResources({ type: 'tech-hub' })
+
   return (
     <div className="min-h-screen bg-slate-900">
       <Navigation />
@@ -60,11 +64,27 @@ export default function TechHubsPage() {
       {/* Tech Hubs Grid */}
       <section className="pb-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {sampleTechHubs.map((hub) => (
-              <ResourceCard key={hub.id} resource={hub} />
-            ))}
-          </div>
+          {loading && (
+            <div className="flex items-center justify-center py-16">
+              <Loader2 className="w-8 h-8 text-cyan-400 animate-spin" />
+              <span className="ml-3 text-slate-400">Loading tech hubs...</span>
+            </div>
+          )}
+
+          {error && (
+            <div className="text-center py-16">
+              <p className="text-red-400 text-lg mb-4">Failed to load tech hubs.</p>
+              <p className="text-slate-500 text-sm">Please try again later.</p>
+            </div>
+          )}
+
+          {!loading && !error && (
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {techHubs.map((hub) => (
+                <ResourceCard key={hub.id} resource={hub} />
+              ))}
+            </div>
+          )}
         </div>
       </section>
     </div>

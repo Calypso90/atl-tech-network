@@ -1,14 +1,20 @@
+'use client'
+
 import { ResourceCard } from "./resource-card"
-import { sampleOnlineResources } from "@/lib/sample-data"
+import { useResources } from "@/hooks/use-resources"
 import Link from "next/link"
+import { useMemo } from "react"
+import { Loader2 } from "lucide-react"
 
 export function OnlineResourcesSection() {
-  const getRandomResources = () => {
-    const shuffled = [...sampleOnlineResources].sort(() => 0.5 - Math.random())
-    return shuffled.slice(0, 3)
-  }
+  const { resources: onlineResources, loading } = useResources({ type: 'online' })
 
-  const displayResources = getRandomResources()
+  // Get 3 random resources
+  const displayResources = useMemo(() => {
+    if (onlineResources.length === 0) return []
+    const shuffled = [...onlineResources].sort(() => 0.5 - Math.random())
+    return shuffled.slice(0, 3)
+  }, [onlineResources])
 
   return (
     <section id="resources" className="scroll-mt-20">
@@ -21,11 +27,17 @@ export function OnlineResourcesSection() {
         </p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
-        {displayResources.map((resource) => (
-          <ResourceCard key={resource.id} resource={resource} />
-        ))}
-      </div>
+      {loading ? (
+        <div className="flex items-center justify-center py-12">
+          <Loader2 className="w-8 h-8 text-cyan-400 animate-spin" />
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+          {displayResources.map((resource) => (
+            <ResourceCard key={resource.id} resource={resource} />
+          ))}
+        </div>
+      )}
 
       <div className="text-center">
         <Link

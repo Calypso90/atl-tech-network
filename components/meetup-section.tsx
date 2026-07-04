@@ -1,14 +1,20 @@
+'use client'
+
 import { ResourceCard } from "./resource-card"
-import { sampleMeetups } from "@/lib/sample-data"
+import { useResources } from "@/hooks/use-resources"
 import Link from "next/link"
+import { useMemo } from "react"
+import { Loader2 } from "lucide-react"
 
 export function MeetupSection() {
-  const getRandomMeetups = () => {
-    const shuffled = [...sampleMeetups].sort(() => 0.5 - Math.random())
-    return shuffled.slice(0, 3)
-  }
+  const { resources: meetups, loading } = useResources({ type: 'meetup' })
 
-  const displayMeetups = getRandomMeetups()
+  // Get 3 random meetups
+  const displayMeetups = useMemo(() => {
+    if (meetups.length === 0) return []
+    const shuffled = [...meetups].sort(() => 0.5 - Math.random())
+    return shuffled.slice(0, 3)
+  }, [meetups])
 
   return (
     <section id="meetups" className="scroll-mt-20">
@@ -21,11 +27,17 @@ export function MeetupSection() {
         </p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
-        {displayMeetups.map((meetup) => (
-          <ResourceCard key={meetup.id} resource={meetup} />
-        ))}
-      </div>
+      {loading ? (
+        <div className="flex items-center justify-center py-12">
+          <Loader2 className="w-8 h-8 text-cyan-400 animate-spin" />
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+          {displayMeetups.map((meetup) => (
+            <ResourceCard key={meetup.id} resource={meetup} />
+          ))}
+        </div>
+      )}
 
       <div className="text-center">
         <Link

@@ -2,26 +2,31 @@
 
 import { Navigation } from "@/components/navigation"
 import { ResourceCard } from "@/components/resource-card"
-import { sampleConferences } from "@/lib/sample-data"
-import { ArrowLeft, Mic, Trophy, Network } from "lucide-react"
+import { useResources } from "@/hooks/use-resources"
+import { ArrowLeft, Mic, Trophy, Network, Loader2 } from "lucide-react"
 import Link from "next/link"
 import { useMemo } from "react"
+import type { Conference } from "@/components/resource-card"
 
 export default function ConferencesPage() {
+  const { resources: conferences, loading, error } = useResources({ type: 'conference' })
+
   const sortedConferences = useMemo(() => {
-    return [...sampleConferences].sort((a, b) => {
+    return [...conferences].sort((a, b) => {
       const today = new Date()
       today.setHours(0, 0, 0, 0)
 
-      const parseDate = (dateStr: string) => {
+      const parseDate = (dateStr: string | undefined) => {
         if (!dateStr) return new Date("1900-01-01")
-
         const cleanDate = dateStr.replace(/(\d+)-\d+,/, "$1,")
         return new Date(cleanDate)
       }
 
-      const dateA = parseDate(a.conferenceDate || "")
-      const dateB = parseDate(b.conferenceDate || "")
+      const confA = a as Conference
+      const confB = b as Conference
+
+      const dateA = parseDate(confA.conferenceDate)
+      const dateB = parseDate(confB.conferenceDate)
 
       const isUpcomingA = dateA >= today
       const isUpcomingB = dateB >= today
@@ -35,7 +40,7 @@ export default function ConferencesPage() {
         return dateB.getTime() - dateA.getTime()
       }
     })
-  }, [])
+  }, [conferences])
 
   return (
     <div className="min-h-screen bg-slate-900">
@@ -85,11 +90,27 @@ export default function ConferencesPage() {
 
       <section className="pb-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {sortedConferences.map((conference) => (
-              <ResourceCard key={conference.id} resource={conference} />
-            ))}
-          </div>
+          {loading && (
+            <div className="flex items-center justify-center py-16">
+              <Loader2 className="w-8 h-8 text-cyan-400 animate-spin" />
+              <span className="ml-3 text-slate-400">Loading conferences...</span>
+            </div>
+          )}
+
+          {error && (
+            <div className="text-center py-16">
+              <p className="text-red-400 text-lg mb-4">Failed to load conferences.</p>
+              <p className="text-slate-500 text-sm">Please try again later.</p>
+            </div>
+          )}
+
+          {!loading && !error && (
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {sortedConferences.map((conference) => (
+                <ResourceCard key={conference.id} resource={conference} />
+              ))}
+            </div>
+          )}
         </div>
       </section>
     </div>

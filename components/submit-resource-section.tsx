@@ -52,6 +52,7 @@ export function SubmitResourceSection() {
     const isNewResource = formData.submissionType === "new"
     const isEdit = formData.submissionType === "edit"
 
+    // Client-side validation
     if (!formData.submissionType || !formData.resourceType || !formData.submitterEmail || !formData.submitterName) {
       toast({
         title: "Missing Information",
@@ -83,25 +84,48 @@ export function SubmitResourceSection() {
     }
 
     try {
-      // In a real app, this would send an email to the site administrators
-      const emailData = {
-        to: "75devs@gmail.com", // This would be the actual admin email
-        subject: isNewResource ? "New Resource Suggestion" : "Resource Update Suggestion",
-        submissionType: formData.submissionType,
-        submitterName: formData.submitterName,
-        submitterEmail: formData.submitterEmail,
-        ...formData,
+      // Submit to API
+      const response = await fetch("/api/submissions", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      })
+
+      const result = await response.json()
+
+      if (!response.ok) {
+        // Handle rate limiting
+        if (response.status === 429) {
+          toast({
+            title: "Too Many Submissions",
+            description: "Please wait a while before submitting again.",
+            variant: "destructive",
+          })
+          return
+        }
+
+        // Handle validation errors
+        if (response.status === 400 && result.details) {
+          const errorMessage = result.details.formErrors?.join(", ") ||
+            Object.values(result.details.fieldErrors || {}).flat().join(", ") ||
+            result.error
+          toast({
+            title: "Invalid Submission",
+            description: errorMessage,
+            variant: "destructive",
+          })
+          return
+        }
+
+        throw new Error(result.error || "Submission failed")
       }
 
-      console.log("Email would be sent with data:", emailData)
-
-      const successMessage = isNewResource
-        ? "Your resource suggestion has been sent to our team for review. We'll get back to you soon!"
-        : "Your update suggestion has been sent to our team for review. We'll verify and make the changes if needed."
-
+      // Success
       toast({
-        title: isNewResource ? "Suggestion Sent!" : "Update Suggestion Sent!",
-        description: successMessage,
+        title: isNewResource ? "Suggestion Submitted!" : "Update Suggestion Submitted!",
+        description: result.message,
       })
 
       // Reset form
@@ -118,9 +142,10 @@ export function SubmitResourceSection() {
         updateReason: "",
       })
     } catch (error) {
+      console.error("Submission error:", error)
       toast({
         title: "Submission Failed",
-        description: "Something went wrong. Please try again.",
+        description: error instanceof Error ? error.message : "Something went wrong. Please try again.",
         variant: "destructive",
       })
     } finally {
@@ -365,12 +390,12 @@ export function SubmitResourceSection() {
         {/* Additional Info */}
         <div className="mt-8 bg-muted/50 rounded-lg p-6 text-center">
           <div className="flex items-center justify-center gap-2 mb-2">
-            <Mail className="w-5 h-5 text-orange-500" />
+            <CheckCircle className="w-5 h-5 text-orange-500" />
             <h3 className="text-lg font-semibold">How It Works</h3>
           </div>
           <p className="text-muted-foreground mb-4">
-            Your suggestions are sent directly to our team via email for review. We manually verify all information and
-            make updates to ensure quality and accuracy. This helps us maintain a trusted resource for the Atlanta tech
+            Your suggestions are saved for our team to review. We manually verify all information and
+            add approved resources to the directory. This helps us maintain a trusted resource for the Atlanta tech
             community.
           </p>
           <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground">
