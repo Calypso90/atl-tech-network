@@ -1,96 +1,109 @@
-"use client"
+"use client";
 
-import { Navigation } from "@/components/navigation"
-import { ResourceCard } from "@/components/resource-card"
-import { sampleMeetups } from "@/lib/sample-data"
-import { ArrowLeft, Calendar, Users, MapPin, Filter, X } from "lucide-react"
-import Link from "next/link"
-import { useState, useMemo } from "react"
+import { Navigation } from "@/components/navigation";
+import { ResourceCard } from "@/components/resource-card";
+import { sampleMeetups } from "@/lib/sample-data";
+import { ArrowLeft, Calendar, Users, MapPin, Filter, X } from "lucide-react";
+import Link from "next/link";
+import { useMemo, useState } from "react";
 
 export default function MeetupsPage() {
-  const [selectedTags, setSelectedTags] = useState<string[]>([])
-  const [isFilterOpen, setIsFilterOpen] = useState(false)
+  const [selectedTags, setSelectedTags] = useState<string[]>([]);
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
 
-  // Extract all unique tags from meetups
   const allTags = useMemo(() => {
-    const tagSet = new Set<string>()
+    const tagSet = new Set<string>();
     sampleMeetups.forEach((meetup) => {
-      meetup.tags.forEach((tag) => tagSet.add(tag))
-    })
-    return Array.from(tagSet).sort()
-  }, [])
+      meetup.tags.forEach((tag) => tagSet.add(tag));
+    });
+    return Array.from(tagSet).sort();
+  }, []);
 
-  // Filter meetups based on selected tags
   const filteredMeetups = useMemo(() => {
-    if (selectedTags.length === 0) return sampleMeetups
-    return sampleMeetups.filter((meetup) => selectedTags.some((tag) => meetup.tags.includes(tag)))
-  }, [selectedTags])
+    if (selectedTags.length === 0) return sampleMeetups;
+    return sampleMeetups.filter((meetup) =>
+      selectedTags.some((tag) => meetup.tags.includes(tag)),
+    );
+  }, [selectedTags]);
 
   const toggleTag = (tag: string) => {
-    setSelectedTags((prev) => (prev.includes(tag) ? prev.filter((t) => t !== tag) : [...prev, tag]))
-  }
+    setSelectedTags((prev) =>
+      prev.includes(tag) ? prev.filter((t) => t !== tag) : [...prev, tag],
+    );
+  };
 
   const clearFilters = () => {
-    setSelectedTags([])
-  }
+    setSelectedTags([]);
+  };
 
   return (
-    <div className="min-h-screen bg-slate-900">
+    <div className="min-h-screen bg-background">
       <Navigation />
 
-      {/* Hero Section */}
-      <section className="pt-24 pb-16 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto">
-          <Link
-            href="/"
-            className="inline-flex items-center gap-2 text-cyan-400 hover:text-cyan-300 transition-colors mb-8 group"
-          >
-            <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
-            Back to Home
-          </Link>
+      <main>
+        <section className="px-4 py-16 sm:px-6 lg:px-8 md:py-20">
+          <div className="mx-auto max-w-7xl">
+            <Link
+              href="/"
+              className="mb-8 inline-flex items-center gap-2 text-sm font-semibold text-primary transition-colors hover:underline"
+            >
+              <ArrowLeft className="h-4 w-4 transition-transform group-hover:-translate-x-1" />
+              Back to Home
+            </Link>
 
-          <div className="text-center mb-16">
-            <h1 className="text-4xl md:text-6xl font-bold bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 bg-clip-text text-transparent mb-6">
-              Local Meetup Groups
-            </h1>
-            <p className="text-xl text-slate-300 max-w-3xl mx-auto leading-relaxed">
-              Connect with Atlanta's vibrant tech community through these local meetup groups. From beginner-friendly
-              workshops to advanced technical discussions, there's something for everyone.
-            </p>
-          </div>
+            <div className="mx-auto mb-12 max-w-3xl text-center">
+              <p className="mb-4 text-sm font-semibold uppercase tracking-[0.2em] text-primary">
+                ATLANTA TECH CALENDAR
+              </p>
+              <h1 className="text-4xl font-bold tracking-tight text-foreground md:text-5xl">
+                Local Meetup Groups
+              </h1>
+              <p className="mt-5 text-lg leading-relaxed text-muted-foreground">
+                Connect with Atlanta&apos;s vibrant tech community through local
+                meetup groups, workshops, and networking events that fit every
+                skill level.
+              </p>
+            </div>
 
-          <div className="mb-8">
-            <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
-              <div className="relative">
-                <button
-                  onClick={() => setIsFilterOpen(!isFilterOpen)}
-                  className="flex items-center gap-2 bg-slate-800 hover:bg-slate-700 border border-slate-600 rounded-lg px-4 py-2 text-white transition-colors"
-                >
-                  <Filter className="w-4 h-4" />
-                  Filter by Technology
-                  <span className="text-xs bg-cyan-500 text-slate-900 px-2 py-1 rounded-full ml-2">
-                    {allTags.length}
-                  </span>
-                </button>
+            <div className="mb-8 rounded-3xl border border-border bg-card/80 p-4 shadow-sm sm:p-6">
+              <div className="flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
+                <div className="relative">
+                  <button
+                    type="button"
+                    onClick={() => setIsFilterOpen(!isFilterOpen)}
+                    className="inline-flex items-center gap-2 rounded-full border border-border bg-background px-4 py-2 text-sm font-medium text-foreground transition-colors hover:bg-accent"
+                  >
+                    <Filter className="h-4 w-4" />
+                    Filter by Technology
+                    <span className="ml-2 rounded-full bg-primary px-2.5 py-0.5 text-[11px] font-semibold text-primary-foreground">
+                      {allTags.length}
+                    </span>
+                  </button>
 
-                {isFilterOpen && (
-                  <div className="absolute top-full left-0 mt-2 w-80 bg-slate-800 border border-slate-600 rounded-lg shadow-xl z-10 max-h-96 overflow-y-auto">
-                    <div className="p-4">
-                      <div className="flex items-center justify-between mb-3">
-                        <h3 className="text-sm font-semibold text-white">Select Technologies</h3>
-                        <button onClick={() => setIsFilterOpen(false)} className="text-slate-400 hover:text-white">
-                          <X className="w-4 h-4" />
+                  {isFilterOpen && (
+                    <div className="absolute left-0 top-full z-10 mt-3 w-80 max-w-[calc(100vw-2rem)] overflow-y-auto rounded-2xl border border-border bg-card p-4 shadow-xl">
+                      <div className="mb-3 flex items-center justify-between">
+                        <h3 className="text-sm font-semibold text-foreground">
+                          Select Technologies
+                        </h3>
+                        <button
+                          type="button"
+                          onClick={() => setIsFilterOpen(false)}
+                          className="rounded-full p-1 text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
+                        >
+                          <X className="h-4 w-4" />
                         </button>
                       </div>
                       <div className="grid grid-cols-2 gap-2">
                         {allTags.map((tag) => (
                           <button
                             key={tag}
+                            type="button"
                             onClick={() => toggleTag(tag)}
-                            className={`text-left px-3 py-2 rounded-md text-sm transition-colors ${
+                            className={`rounded-lg px-3 py-2 text-left text-sm transition-colors ${
                               selectedTags.includes(tag)
-                                ? "bg-cyan-500 text-slate-900 font-medium"
-                                : "bg-slate-700 text-slate-300 hover:bg-slate-600"
+                                ? "bg-primary text-primary-foreground"
+                                : "bg-background text-muted-foreground hover:bg-accent hover:text-foreground"
                             }`}
                           >
                             {tag}
@@ -98,84 +111,107 @@ export default function MeetupsPage() {
                         ))}
                       </div>
                     </div>
-                  </div>
-                )}
+                  )}
+                </div>
+
+                <div className="flex flex-wrap items-center gap-4">
+                  {selectedTags.length > 0 && (
+                    <button
+                      type="button"
+                      onClick={clearFilters}
+                      className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+                    >
+                      Clear filters
+                    </button>
+                  )}
+                  <span className="text-sm text-muted-foreground">
+                    Showing {filteredMeetups.length} of {sampleMeetups.length}{" "}
+                    groups
+                  </span>
+                </div>
               </div>
 
-              <div className="flex items-center gap-4">
-                {selectedTags.length > 0 && (
-                  <button onClick={clearFilters} className="text-sm text-slate-400 hover:text-white transition-colors">
-                    Clear filters
-                  </button>
-                )}
-                <span className="text-sm text-slate-400">
-                  Showing {filteredMeetups.length} of {sampleMeetups.length} groups
-                </span>
-              </div>
+              {selectedTags.length > 0 && (
+                <div className="mt-4 flex flex-wrap gap-2">
+                  {selectedTags.map((tag) => (
+                    <span
+                      key={tag}
+                      className="inline-flex items-center gap-1 rounded-full bg-accent px-3 py-1 text-sm font-medium text-accent-foreground"
+                    >
+                      {tag}
+                      <button
+                        type="button"
+                        onClick={() => toggleTag(tag)}
+                        className="rounded-full p-0.5 hover:bg-background"
+                      >
+                        <X className="h-3 w-3" />
+                      </button>
+                    </span>
+                  ))}
+                </div>
+              )}
             </div>
 
-            {/* Selected Tags Display */}
-            {selectedTags.length > 0 && (
-              <div className="flex flex-wrap gap-2 mt-4">
-                {selectedTags.map((tag) => (
-                  <span
-                    key={tag}
-                    className="inline-flex items-center gap-1 bg-cyan-500 text-slate-900 px-3 py-1 rounded-full text-sm font-medium"
-                  >
-                    {tag}
-                    <button onClick={() => toggleTag(tag)} className="hover:bg-cyan-600 rounded-full p-0.5">
-                      <X className="w-3 h-3" />
-                    </button>
-                  </span>
-                ))}
+            <div className="mb-12 grid gap-6 md:grid-cols-3">
+              <div className="rounded-2xl border border-border bg-card/80 p-6 text-center shadow-sm">
+                <Calendar className="mx-auto mb-3 h-8 w-8 text-primary" />
+                <h3 className="mb-2 text-lg font-semibold text-foreground">
+                  Regular Events
+                </h3>
+                <p className="text-sm text-muted-foreground">
+                  Weekly and monthly meetups with consistent schedules and
+                  topics.
+                </p>
+              </div>
+              <div className="rounded-2xl border border-border bg-card/80 p-6 text-center shadow-sm">
+                <Users className="mx-auto mb-3 h-8 w-8 text-primary" />
+                <h3 className="mb-2 text-lg font-semibold text-foreground">
+                  All Skill Levels
+                </h3>
+                <p className="text-sm text-muted-foreground">
+                  From beginners to experts, everyone is welcome to learn and
+                  share.
+                </p>
+              </div>
+              <div className="rounded-2xl border border-border bg-card/80 p-6 text-center shadow-sm">
+                <MapPin className="mx-auto mb-3 h-8 w-8 text-primary" />
+                <h3 className="mb-2 text-lg font-semibold text-foreground">
+                  Local &amp; Virtual
+                </h3>
+                <p className="text-sm text-muted-foreground">
+                  In-person networking with virtual options for remote
+                  participation.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section className="px-4 pb-20 sm:px-6 lg:px-8">
+          <div className="mx-auto max-w-7xl">
+            <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+              {filteredMeetups.map((meetup) => (
+                <ResourceCard key={meetup.id} resource={meetup} />
+              ))}
+            </div>
+
+            {filteredMeetups.length === 0 && (
+              <div className="py-16 text-center">
+                <p className="mb-4 text-lg text-muted-foreground">
+                  No meetups found for the selected technologies.
+                </p>
+                <button
+                  type="button"
+                  onClick={clearFilters}
+                  className="font-semibold text-primary hover:underline"
+                >
+                  Clear filters to see all groups
+                </button>
               </div>
             )}
           </div>
-
-          {/* Info Cards */}
-          <div className="grid md:grid-cols-3 gap-6 mb-16">
-            <div className="bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-xl p-6 text-center">
-              <Calendar className="w-8 h-8 text-cyan-400 mx-auto mb-3" />
-              <h3 className="text-lg font-semibold text-white mb-2">Regular Events</h3>
-              <p className="text-slate-400 text-sm">Weekly and monthly meetups with consistent schedules and topics</p>
-            </div>
-            <div className="bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-xl p-6 text-center">
-              <Users className="w-8 h-8 text-blue-400 mx-auto mb-3" />
-              <h3 className="text-lg font-semibold text-white mb-2">All Skill Levels</h3>
-              <p className="text-slate-400 text-sm">
-                From beginners to experts, everyone is welcome to learn and share
-              </p>
-            </div>
-            <div className="bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-xl p-6 text-center">
-              <MapPin className="w-8 h-8 text-purple-400 mx-auto mb-3" />
-              <h3 className="text-lg font-semibold text-white mb-2">Local & Virtual</h3>
-              <p className="text-slate-400 text-sm">
-                In-person networking with virtual options for remote participation
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Meetups Grid */}
-      <section className="pb-20 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto">
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {filteredMeetups.map((meetup) => (
-              <ResourceCard key={meetup.id} resource={meetup} />
-            ))}
-          </div>
-
-          {filteredMeetups.length === 0 && (
-            <div className="text-center py-16">
-              <p className="text-slate-400 text-lg mb-4">No meetups found for the selected technologies.</p>
-              <button onClick={clearFilters} className="text-cyan-400 hover:text-cyan-300 transition-colors">
-                Clear filters to see all groups
-              </button>
-            </div>
-          )}
-        </div>
-      </section>
+        </section>
+      </main>
     </div>
-  )
+  );
 }
