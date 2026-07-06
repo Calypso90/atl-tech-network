@@ -1,20 +1,19 @@
 import type React from "react"
 import type { Metadata } from "next"
-import { GeistSans } from "geist/font/sans"
-import { GeistMono } from "geist/font/mono"
-import { Rubik } from "next/font/google"
+import { Inter } from "next/font/google"
+import { ThemeProvider } from "@/components/theme-provider"
 import "./globals.css"
 
-const rubik = Rubik({
+const inter = Inter({
   subsets: ["latin"],
   display: "swap",
-  variable: "--font-rubik",
+  variable: "--font-inter",
 })
 
 export const metadata: Metadata = {
-  title: "Atlanta Tech Community - Meetups, Conferences & Resources",
-  description: "Discover Atlanta's thriving tech community through local meetups, conferences, and online resources.",
-  generator: "v0.app",
+  title: "ATLEvents | Everything Atlanta. All in One Place.",
+  description:
+    "Discover meetups, tech events, conferences, and community gatherings across Atlanta.",
 }
 
 export default function RootLayout({
@@ -23,18 +22,17 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en">
-      <head>
-        <style>{`
-html {
-  font-family: ${GeistSans.style.fontFamily};
-  --font-sans: ${GeistSans.variable};
-  --font-mono: ${GeistMono.variable};
-  --font-rubik: ${rubik.variable};
-}
-        `}</style>
-      </head>
-      <body className={`${rubik.variable} antialiased`}>{children}</body>
+    <html lang="en" suppressHydrationWarning>
+      <body className={`${inter.variable} font-sans antialiased`}>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="light"
+          enableSystem
+          disableTransitionOnChange
+        >
+          {children}
+        </ThemeProvider>
+      </body>
     </html>
   )
 }

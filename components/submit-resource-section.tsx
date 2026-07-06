@@ -132,10 +132,11 @@ export function SubmitResourceSection() {
   const isEdit = formData.submissionType === "edit"
 
   return (
-    <section id="contact" className="scroll-mt-20">
+    <section className="scroll-mt-24 bg-background py-16">
+      <div className="container mx-auto px-4">
       <div className="text-center mb-12">
-        <h2 className="text-4xl font-bold mb-4 bg-gradient-to-r from-orange-500 to-red-500 bg-clip-text text-transparent graffiti-heading">
-          Suggest a Resource
+        <h2 className="text-3xl font-bold mb-4 text-foreground md:text-4xl">
+          Submit an Event
         </h2>
         <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
           Know of a great meetup, conference, or learning resource? Help grow Atlanta's tech community by suggesting it!
@@ -344,7 +345,7 @@ export function SubmitResourceSection() {
               <Button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white font-medium py-3"
+                className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-medium py-3"
               >
                 {isSubmitting ? (
                   <>
@@ -378,6 +379,7 @@ export function SubmitResourceSection() {
             <span>Typical response time: 2-3 business days</span>
           </div>
         </div>
+      </div>
       </div>
     </section>
   )
