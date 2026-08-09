@@ -7,6 +7,7 @@ import { SiteLogo } from "@/components/site-logo"
 import { ThemeToggle } from "@/components/theme-toggle"
 
 const navItems = [
+  { href: "/calendar", label: "Calendar" },
   { href: "/meetups", label: "Meetups" },
   { href: "/conferences", label: "Conferences" },
   { href: "/about", label: "About" },
