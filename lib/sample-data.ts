@@ -650,7 +650,7 @@ export const sampleConferences: Resource[] = [
     tags: ["Programming", "Web Development", "Networking"],
     link: "https://www.atldevcon.com/",
     image: "/atlanta-developers-conference.png",
-    conferenceDate: "2025-09-15",
+    conferenceDate: "2026-09-15",
   },
   {
     id: "2",
@@ -660,8 +660,8 @@ export const sampleConferences: Resource[] = [
       "The largest frontend conference in the Southeast, featuring talks on React, Angular, Vue, mobile development, and emerging web technologies.",
     tags: ["Frontend", "React", "Angular", "Vue", "Mobile Development", "JavaScript"],
     link: "https://connect.tech/",
-    cfpDate: "2025-06-15",
-    conferenceDate: "2025-10-17",
+    cfpDate: "2026-06-15",
+    conferenceDate: "2026-10-17",
     image: "/connect-tech-logo.png",
   },
   {
@@ -672,8 +672,8 @@ export const sampleConferences: Resource[] = [
       "Premier Java and JVM conference focusing on Spring, microservices, cloud-native development, and enterprise Java practices.",
     tags: ["Java", "Spring", "Backend", "Enterprise", "Cloud"],
     link: "https://devnexus.com/",
-    cfpDate: "2025-09-30",
-    conferenceDate: "2025-04-08",
+    cfpDate: "2026-09-30",
+    conferenceDate: "2027-04-08",
     image: "/devnexus-java-conference.png",
   },
   {
@@ -684,7 +684,7 @@ export const sampleConferences: Resource[] = [
       "Google Developer Groups community-led conference covering Android, web technologies, machine learning, and Google Cloud Platform.",
     tags: ["Android", "Web Development", "AI", "Cloud", "Mobile Development"],
     link: "https://gdg.community.dev/gdg-atlanta/",
-    conferenceDate: "2025-11-08",
+    conferenceDate: "2026-11-08",
     image: "/devfest-atlanta-gdg.png",
   },
   {
@@ -695,7 +695,7 @@ export const sampleConferences: Resource[] = [
       "Community-driven conference focusing on DevOps practices, automation, continuous integration, and infrastructure as code.",
     tags: ["DevOps", "Cloud", "Infrastructure", "Automation"],
     link: "https://devopsdays.org/",
-    conferenceDate: "2025-05-20",
+    conferenceDate: "2027-05-20",
     image: "/devops-days-atlanta.png",
   },
   {
@@ -706,7 +706,7 @@ export const sampleConferences: Resource[] = [
       "The premier Drupal conference bringing together developers, site builders, and digital strategists for the latest in Drupal development.",
     tags: ["Drupal", "CMS", "Web Development", "PHP"],
     link: "https://events.drupal.org/atlanta2025",
-    conferenceDate: "2025-05-05",
+    conferenceDate: "2027-05-05",
     image: "/drupalcon-atlanta.png",
   },
   {
@@ -717,7 +717,7 @@ export const sampleConferences: Resource[] = [
       "Forward-thinking technology conference exploring emerging trends, artificial intelligence, blockchain, and the future of digital innovation.",
     tags: ["AI", "Blockchain", "Emerging Tech", "Innovation"],
     link: "https://futureconevents.com/",
-    conferenceDate: "2025-08-12",
+    conferenceDate: "2026-08-12",
     image: "/futurecon-tech-innovation.png",
   },
   {
@@ -728,7 +728,7 @@ export const sampleConferences: Resource[] = [
       "Git and version control conference covering advanced Git workflows, collaboration strategies, and modern development practices.",
     tags: ["Git", "DevOps", "Programming", "Collaboration"],
     link: "https://gitkon.com/",
-    conferenceDate: "2025-06-25",
+    conferenceDate: "2027-06-25",
     image: "/gitkon-version-control.png",
   },
   {
@@ -739,7 +739,7 @@ export const sampleConferences: Resource[] = [
       "Virtual conference focused on developer experience, AI-powered development tools, and the future of software engineering.",
     tags: ["AI", "Developer Tools", "Programming", "Virtual"],
     link: "https://virtualdevex.com/",
-    conferenceDate: "2025-07-15",
+    conferenceDate: "2027-07-15",
     image: "/virtual-devex-ai-conference.png",
   },
   {
@@ -750,7 +750,7 @@ export const sampleConferences: Resource[] = [
       "Premier cybersecurity conference featuring ethical hacking, penetration testing, incident response, and information security best practices.",
     tags: ["Cybersecurity", "Ethical Hacking", "Security"],
     link: "https://hackerhalted.com/",
-    conferenceDate: "2025-10-28",
+    conferenceDate: "2026-10-28",
     image: "/hacker-halted-cybersecurity.png",
   },
   {
@@ -761,8 +761,8 @@ export const sampleConferences: Resource[] = [
       "The flagship conference for Kubernetes and cloud-native technologies, covering container orchestration, microservices, and cloud infrastructure.",
     tags: ["Kubernetes", "Cloud", "DevOps", "Containers"],
     link: "https://events.linuxfoundation.org/kubecon-cloudnativecon-north-america-2025/",
-    cfpDate: "2025-07-01",
-    conferenceDate: "2025-11-12",
+    cfpDate: "2026-07-01",
+    conferenceDate: "2026-11-12",
     image: "/kubecon-cloudnative.png",
   },
   {
@@ -773,7 +773,7 @@ export const sampleConferences: Resource[] = [
       "Unconference-style event for product managers, designers, and entrepreneurs to share insights on product development and strategy.",
     tags: ["Product Management", "Design", "UX", "Business"],
     link: "https://pcampatl.com/",
-    conferenceDate: "2025-03-22",
+    conferenceDate: "2027-03-22",
     image: "/productcamp-atlanta.png",
   },
   {
@@ -784,8 +784,8 @@ export const sampleConferences: Resource[] = [
       "Design and frontend conference celebrating creativity in web design, user experience, and digital storytelling.",
     tags: ["Design", "Frontend", "UX", "Web Development"],
     link: "https://www.renderatl.com/",
-    cfpDate: "2025-05-30",
-    conferenceDate: "2025-08-28",
+    cfpDate: "2026-05-30",
+    conferenceDate: "2026-08-28",
     image: "/render-atl-design.png",
   },
   {
@@ -796,7 +796,7 @@ export const sampleConferences: Resource[] = [
       "Data cloud conference focusing on modern data architecture, analytics, machine learning, and data-driven business transformation.",
     tags: ["Data Science", "Analytics", "Cloud", "AI"],
     link: "https://www.snowflake.com/events/snowflake-world-tour-atlanta/",
-    conferenceDate: "2025-09-10",
+    conferenceDate: "2026-09-10",
     image: "/snowflake-world-tour.png",
   },
   {
@@ -807,7 +807,7 @@ export const sampleConferences: Resource[] = [
       "Open source security conference addressing supply chain security, vulnerability management, and secure software development practices.",
     tags: ["Open Source", "Cybersecurity", "Security"],
     link: "https://events.linuxfoundation.org/soss-fusion/",
-    conferenceDate: "2025-04-15",
+    conferenceDate: "2027-04-15",
     image: "/soss-fusion-security.png",
   },
   {
@@ -818,7 +818,7 @@ export const sampleConferences: Resource[] = [
       "The International Conference for High Performance Computing, Networking, Storage, and Analysis - the premier global event for HPC professionals.",
     tags: ["High Performance Computing", "Networking", "Research"],
     link: "https://supercomputing.org/",
-    conferenceDate: "2025-11-16",
+    conferenceDate: "2026-11-16",
     image: "/supercomputing-hpc.png",
   },
   {
@@ -829,7 +829,7 @@ export const sampleConferences: Resource[] = [
       "Technology expo and conference showcasing the latest innovations in AI, IoT, blockchain, cybersecurity, and digital transformation.",
     tags: ["Technology", "AI", "IoT", "Blockchain", "Innovation"],
     link: "https://techspoatlanta.com/",
-    conferenceDate: "2025-06-18",
+    conferenceDate: "2027-06-18",
     image: "/techspo-atlanta.png",
   },
 ]
