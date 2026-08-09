@@ -8,33 +8,23 @@ import Link from "next/link"
 import { useMemo } from "react"
 
 export default function ConferencesPage() {
-  const sortedConferences = useMemo(() => {
-    return [...sampleConferences].sort((a, b) => {
-      const today = new Date()
-      today.setHours(0, 0, 0, 0)
+  const upcomingConferences = useMemo(() => {
+    const today = new Date()
+    today.setHours(0, 0, 0, 0)
 
-      const parseDate = (dateStr: string) => {
-        if (!dateStr) return new Date("1900-01-01")
+    const parseDate = (dateStr: string) => {
+      if (!dateStr) return new Date("1900-01-01")
 
-        const cleanDate = dateStr.replace(/(\d+)-\d+,/, "$1,")
-        return new Date(cleanDate)
-      }
+      const cleanDate = dateStr.replace(/(\d+)-\d+,/, "$1,")
+      return new Date(cleanDate)
+    }
 
-      const dateA = parseDate(a.conferenceDate || "")
-      const dateB = parseDate(b.conferenceDate || "")
-
-      const isUpcomingA = dateA >= today
-      const isUpcomingB = dateB >= today
-
-      if (isUpcomingA && !isUpcomingB) return -1
-      if (!isUpcomingA && isUpcomingB) return 1
-
-      if (isUpcomingA && isUpcomingB) {
-        return dateA.getTime() - dateB.getTime()
-      } else {
-        return dateB.getTime() - dateA.getTime()
-      }
-    })
+    return sampleConferences
+      .filter((conference) => parseDate(conference.conferenceDate || "") >= today)
+      .sort(
+        (a, b) =>
+          parseDate(a.conferenceDate || "").getTime() - parseDate(b.conferenceDate || "").getTime(),
+      )
   }, [])
 
   return (
@@ -85,11 +75,19 @@ export default function ConferencesPage() {
 
       <section className="pb-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {sortedConferences.map((conference) => (
-              <ResourceCard key={conference.id} resource={conference} />
-            ))}
-          </div>
+          {upcomingConferences.length > 0 ? (
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {upcomingConferences.map((conference) => (
+                <ResourceCard key={conference.id} resource={conference} />
+              ))}
+            </div>
+          ) : (
+            <div className="text-center py-16">
+              <p className="text-lg text-slate-300">
+                No upcoming conferences are scheduled right now. Check back soon for new events.
+              </p>
+            </div>
+          )}
         </div>
       </section>
     </div>
